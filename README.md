@@ -1,32 +1,32 @@
-# LimaCharlie & Sliver C2: Adversary Emulation Lab
+# **LimaCharlie & Sliver C2: Adversary Emulation Lab**
 
-## Objective
-This repository documents the adversary emulation lab using Sliver C2 for command-and-control attack simulation and LimaCharlie for endpoint detection and response. The goal is to simulate real-world attack scenarios, analyze telemetry data, and refine. 
+**Objective**
+
+This repository explores adversary tactics using Sliver C2 for command-and-control attack simulation and demonstrates defensive strategies using LimaCharlie EDR. It aims to replicate real-world attack scenarios, refine detection logic, and evaluate telemetry insights."
 
 
-The Detection Lab project aimed to establish a controlled environment for simulating and detecting cyber attacks. The primary focus was to ingest and analyze logs within a Security Information and Event Management (SIEM) system, generating test telemetry to mimic real-world attack scenarios. This hands-on experience was designed to deepen understanding of network security, attack patterns, and defensive strategies.
 
-### Skills Learned
+**Skills Learned**
 
-🔹 Endpoint Detection & Response (EDR)
+**🔹 Endpoint Detection & Response (EDR)**
 - Deploying LimaCharlie Sensors for real-time telemetry collection.
 - Integrating Sysmon with LimaCharlie to capture detailed process activity.
 - Analyzing process telemetry to detect command-and-control (C2) activity.
 - Building Detection & Response (D&R) rules to mitigate attacks.
 
-🔹 Adversary Emulation & C2 Frameworks
+**🔹 Adversary Emulation & C2 Frameworks**
 - Setting up Sliver C2 to simulate real-world attack scenarios.
 - Generating and deploying Sliver payloads for command execution.
 - Interacting with active C2 sessions to mimic adversary behavior.
 - Understanding detection evasion techniques used by Sliver.
 
-🔹 Threat Hunting & Malware Analysis
+**🔹 Threat Hunting & Malware Analysis**
 - Examining process and file hashes to investigate suspicious binaries.
 - Using VirusTotal to assess malware reputation and identify unknown threats.
 - Dumping LSASS memory to simulate credential theft tactics.
 - Filtering LimaCharlie telemetry for sensitive event detection.
 
-🔹 Security Operations & Defensive Strategies
+**🔹 Security Operations & Defensive Strategies**
 - Refining security detection logic for advanced threat detection.
 - Investigating system behavior post-compromise for forensic insights.
 - Applying MITRE ATT&CK mappings to real-world adversary techniques.
@@ -34,11 +34,13 @@ The Detection Lab project aimed to establish a controlled environment for simula
 
 
 
-### Tools Used
+**Tools Used**
+
 🔹 Virtual Machines (VMs)
 - Windows 10 (Target Machine) – Acts as the endpoint where Sliver C2 payloads are executed. LimaCharlie sensor is deployed here to capture telemetry.
 - Kali Linux (Attacker Machine) – Used for launching Sliver C2, executing commands, and emulating adversary techniques.
-- Ubuntu Server (Malware Storage) – Serves as the host for the malicious Sliver payloads, allowing downloads via an HTTP server for delivery to the Windows target.
+- Ubuntu Server (Malware Storage) – Acts as a staging server for adversary-controlled payload distribution. A temporary Python web server hosts the Sliver C2 payload, mimicking real-world malware delivery methods.
+
 
 🔹 LimaCharlie (EDR Platform)
 A cloud-native endpoint detection & response (EDR) tool used to capture and analyze system telemetry. It provides:
@@ -54,7 +56,7 @@ An open-source command-and-control (C2) tool used to simulate real-world adversa
 
 
 
-## Steps
+**Steps :**
 
 First thing we got to do is to remove security defense in Windows VM.
 ![image](https://github.com/user-attachments/assets/522aa5c2-c2f6-47f6-8298-5446112cf5c8)
@@ -70,10 +72,10 @@ Some instances, the security settings will automatically turn on again, so we wi
 
 Install Sysmon in Windows VM
 -	Launch Administrative Powershell console 
--	Invoke-WebRequest -Uri https://download.systernals.com/files/Sysmon.zip -Outfile C:\Windows\Temp\Sysmon.zip 
+-	`Invoke-WebRequest -Uri https://download.systernals.com/files/Sysmon.zip -Outfile C:\Windows\Temp\Sysmon.zip`
 -	Unzip Sysmon
 -	Download SwiftonSecurity’s Sysmon config.
--	Invoke-WebRequest -Uri https://raw.githubuser.com/SwiftonSecurity/sysmon-config/master/sysmonconfig-export.xml -Outfile C:\Windows\Temp\Sysmon\sysmonconfig.xml
+-	Invoke-WebRequest `-Uri https://raw.githubuser.com/SwiftonSecurity/sysmon-config/master/sysmonconfig-export.xml -Outfile C:\Windows\Temp\Sysmon\sysmonconfig.xml`
 -	install Sysmon with Swift’s config
 ![image](https://github.com/user-attachments/assets/afe2d98a-898b-435a-baf3-cce9051807be)
 
@@ -103,7 +105,7 @@ Then download the Sliver : wget https://github.com/BishopFox/sliver/releases/dow
 
 Then make it executable : chmod +x /usr/local/bin/sliver-server
 
-Also install mingw-w64 for additional capabilities : apt install -y mingw-w64
+Also install mingw-w64 for additional capabilities : `apt install -y mingw-w64`
 Launch sliver (sliver-server)
 ![image](https://github.com/user-attachments/assets/1847ef67-7a85-4b6b-8073-e66ff4839fd7)
 
@@ -128,21 +130,22 @@ Verify by typing ‘sessions’
 Interact with C2 session : ‘use [session_id]
 ![image](https://github.com/user-attachments/assets/de63e25a-2c57-44c9-86e7-2c72ea213dff)
 
-Get basic info: whoami,info
+Get basic info: `whoami && info`
 
 ![image](https://github.com/user-attachments/assets/f31691f5-992d-4c0d-a32a-4c53e49ca3f5)
 
-getprivs :
+`getprivs` :
 
 ![image](https://github.com/user-attachments/assets/e56a8eba-3dfb-4096-80b4-ed654cb68ae2)
 
 ![image](https://github.com/user-attachments/assets/bacd162e-5a94-4360-a5c2-d9826b16d89a)
 
-ps -T (sliver highlight the defensive tool as red and green as its own)
+`ps -T` (sliver highlight the defensive tool as red and green as its own)
 ![image](https://github.com/user-attachments/assets/ed37bb45-62b7-48a5-beef-16ee45352e7b)
 
 
-Go to LimaCharlie then check our sensor. Select the windows VM then go to process : 
+Go to LimaCharlie’s Process Explorer, select the Windows VM, and analyze running processes. Look for suspicious parent-child process chains (e.g., powershell.exe -> LOW_BAGGAGE.exe) as indicators of malicious execution.
+
 
 ![image](https://github.com/user-attachments/assets/0090cd77-b48a-4be1-8795-141ec01084d6)
 ![image](https://github.com/user-attachments/assets/94d49b43-c96e-4788-aecb-20b4b918c4a9)
@@ -161,7 +164,8 @@ Go to file system of our windows machine in LimaCharlie to get the hash of file 
 **When you tried to check it to Virustotal. No results will found. 
 But it doesn’t mean its innocent.
 It’s just VirusTotal is never seen it before. This makes sense because we just generated the payload.
-The important lesson for any analyst to learn : if you already suspect a file to be possible malware, but VirusTotal has never seen it before, trust your gut. This actually make a file even more suspicious because nearly everything  has been seen by VirusTotal, so the malware may be custom-crafter/targeted which ups the ante a bit.**
+The important lesson for any analyst to learn : Files not flagged by VirusTotal may be custom-built malware designed for targeted attacks. Always corroborate findings with static analysis (strings, entropy checks) and behavioral analysis (sandbox execution)
+
 
 
 Next, lets dump the **lsass.exe** process from memory 
