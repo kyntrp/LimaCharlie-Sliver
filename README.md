@@ -199,8 +199,6 @@ Try to dump the lsass.exe again using the same command to check if our rule is r
 
 
 
-Special thanks to Eric Capuano. This is based on his blog “So you want to be a SOC Analyst?”
-Also “Simply Cyber – Gerald Auger phD” youtube channel for making an updated walkthrough for this lab
 
 
 
