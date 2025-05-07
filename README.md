@@ -18,7 +18,7 @@ This repository explores adversary tactics using Sliver C2 for command-and-contr
 - Setting up Sliver C2 to simulate real-world attack scenarios.
 - Generating and deploying Sliver payloads for command execution.
 - Interacting with active C2 sessions to mimic adversary behavior.
-- Understanding detection evasion techniques used by Sliver.
+
 
 **🔹 Threat Hunting & Malware Analysis**
 - Examining process and file hashes to investigate suspicious binaries.
@@ -26,10 +26,7 @@ This repository explores adversary tactics using Sliver C2 for command-and-contr
 - Dumping LSASS memory to simulate credential theft tactics.
 - Filtering LimaCharlie telemetry for sensitive event detection.
 
-**🔹 Security Operations & Defensive Strategies**
-- Refining security detection logic for advanced threat detection.
-- Investigating system behavior post-compromise for forensic insights.
-- Applying MITRE ATT&CK mappings to real-world adversary techniques.
+
 
 
 
@@ -123,6 +120,10 @@ Quit the python web server then relaunch the sliver-server, start http listener 
 ![image](https://github.com/user-attachments/assets/43587b79-32a0-465f-aefc-99639eb26318)
 
 Return to Windows VM then execute the C2 Payload using administrative powershell.
+
+![image](https://github.com/user-attachments/assets/f05dbc8d-7003-49fb-9cd0-ab1fc75171ac)
+
+
 ![image](https://github.com/user-attachments/assets/15d8eced-0fd9-4782-aa2d-8667b593b80a)
 Verify by typing ‘sessions’
 ![image](https://github.com/user-attachments/assets/ccca4c27-7d32-4eb5-9f7d-d5b86cc50b6b)
